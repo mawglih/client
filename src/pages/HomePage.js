@@ -23,20 +23,6 @@ const useStyles = makeStyles(theme => ({
   body: {
     color: theme.palette.common.blue,
   },
-  // background: ({backgroundImg}) => ({
-  //   backgroundImage: backgroundImg ? `url(${backgroundImg})` : `url(${infoBkg1})`,
-  //   backgroundPosition: 'center',
-  //   backgroundSize: 'cover',
-  //   backgroundRepeat: 'no-repeat',
-  //   height: '60em',
-  // }),
-  bkgImage: {
-    // backgroundImage: ({image}) => `url(${image})`,
-    backgroundPosition: 'center',
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
-    height: '60em',
-  },
   icon: {
     color: theme.palette.common.blue,
     padding: '8px 10px 0 2px',
@@ -79,31 +65,119 @@ const HomePage = ({
   const [val, setVal] = useState({});
   const [data, setData] = useState({ name: '', email: '', phone: '', ssc: '', dl: '', address: '', income: '', bank: '', })
   const [fieldname, setFieldname] = useState(fieldName[0]);
-
+  const [txtHelper, setTxtHelper] = useState('');
+  const [disabled, setDisabled] = useState(true);
+  const [autofocus, setAutofocus] = useState(true);
   const onValueChange = (id, value) => {
+    let valid;
+    switch(id) {
+      case 'name':
+        setVal({[id]: value});
+        valid = /^\w{2}/.test(value) && value.length > 0;
+        if (!valid) {
+          setTxtHelper('Name should include only letters and be at least 2 letters long');
+        } else {
+          setTxtHelper('');
+          setDisabled(false);
+        }
+        break;
+      case 'phone':
+        setVal(value);
+        valid = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(value) && value.length > 0;
+        if (!valid) {
+          setTxtHelper('Invalid phone number');
+        } else {
+          setTxtHelper('');
+          setDisabled(false);
+        }
+        break;
+      case 'email':
+        setVal(value);
+        valid = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value);
+        if (!valid) {
+          setTxtHelper('Invalid email');
+        } else {
+          setTxtHelper('');
+          setDisabled(false);
+        }
+        break;
+      case 'ssc':
+        setVal(value);
+        valid = /^[0-9]{3}\-?[0-9]{2}\-?[0-9]{4}$/.test(value);
+        if (!valid) {
+          setTxtHelper('Invalid social security number');
+        } else {
+          setTxtHelper('');
+          setDisabled(false);
+        }
+        break;
+      case 'dl':
+        setVal(value);
+        valid = /^[0-9a-zA-Z]+$/.test(value) && value.length > 10;
+        if (!valid) {
+          setTxtHelper('Invalid driver license number');
+        } else {
+          setTxtHelper('');
+          setDisabled(false);
+        }
+        break;
+      case 'address':
+        setVal(value);
+        valid = value.length > 10;
+        if(!valid) {
+        setTxtHelper('Address is too short');
+        } else {
+        setTxtHelper('');
+        setDisabled(false);
+        }
+        break;
+      case 'income':
+        setVal(value);
+        valid = '1-800-flowers';
+        if(value === '1800flowers.com' || value === '1-800-flowers' || value === '1800flowers') {
+          setTxtHelper('');
+          setDisabled(false);
+        } else {
+          setTxtHelper('Your only income is from 1-800-...');
+        }
+        break;
+      case 'bank':
+        setVal(value);
+        valid = /^[a-zA-Z\s.]+$/.test(value) && value.length > 5;
+        if(!valid) {
+          setTxtHelper('Name should be a name, not routing number and long enough. PNC is not a bank, but PNC bank is!');
+        } else {
+          setTxtHelper('');
+          setDisabled(false);
+        }
+        break;
+      default:
+        break;
+    }
     setVal({[id]: value});
   }
 
-  const navigte = useNavigate();
+  const navigate = useNavigate();
 
   const handleCounter = e => {
-    e.preventDefault();
     setCounter(counter + 1);
     setBackground(bkgs[counter+1]);
     setFieldname(fieldName[counter+1]);
     setButtonText(btnTxt[counter+1]);
     setData(prev => ({...prev, ...val}));
-    setVal({fieldname: ''});
+    setDisabled(true);
+    setAutofocus(true);
     if(counter === 7) {
       setCounter(0);
       setBackground(bkgs[0]);
-      navigte('/checker')
+      navigate('/checker')
     }
   }
 
-  // useEffect(() => {
-  //   setBackground(bkgs[counter]);
-  // }, [counter]);
+  const clearValue = e => {
+    setVal({fieldname: ''});
+    e.preventDefault();
+  }
 
   console.log('backImage', backgroundImg);
   console.log('counter', counter);
@@ -111,6 +185,8 @@ const HomePage = ({
   console.log('val', val);
   console.log('fieldname', fieldname);
   console.log('data', data);
+  console.log('disabled', disabled);
+  console.log('helper text', txtHelper);
 
   return (
     <Grid container direction="row">
@@ -137,6 +213,10 @@ const HomePage = ({
               handleCounter={handleCounter}
               counter={counter}
               val={val}
+              clear={clearValue}
+              disabled={disabled}
+              txtHelper={txtHelper}
+              autofocus={autofocus}
             />
           </Grid>
 
@@ -147,7 +227,6 @@ const HomePage = ({
         item
         container
         lg={9}
-        // className={classes.bkgImage}
         style={{
           backgroundImage: `url(${backgroundImg}`,
           backgroundPosition: 'center',
@@ -156,8 +235,7 @@ const HomePage = ({
           height: '60em',
         }}
       >
-        {/* <CallToActions /> */}
-        {/* <CurrentImage image={backgroundImg} /> */}
+        {/* <CallToActions />   */}
         <h1>Here we go</h1>
       </Grid>
       )}

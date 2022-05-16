@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { makeStyles }from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -24,27 +24,34 @@ const MyForm = ({
   buttonText,
   handleCounter,
   val,
-  counter,
+  clear,
+  disabled,
+  txtHelper,
+  autofocus,
 }) => {
   const classes = useStyles();
   const [value, setValue] = useState({});
+  const ref = useRef(null);
   const onValueChange = e => {
     const { id, value } = e.target;
     handleChange(id,value);
   };
 
+  const empty = true;
+
   const handleSubmit = e => {
     handleCounter(e);
-    setValue({[label]: ''});
+    clear(e);
+    ref.current.value = '';
   };
 
   useEffect(() => {
     setValue(val.label);
-    return () => setValue({[label]: ''});
+    return () => setValue({[val.label]: ''});
   }, [value])
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} autoComplete="off">
       <Grid item>
         <TextField
           label={label}
@@ -52,6 +59,13 @@ const MyForm = ({
           fullWidth
           value={val.label}
           onChange={onValueChange}
+          margin='normal'
+          variant="outlined"
+          color="primary"
+          inputRef={ref}
+          error={txtHelper.length > 0}
+          helperText={txtHelper}
+          autoFocus={autofocus}
         />
       </Grid>
       <Grid item>
@@ -62,6 +76,7 @@ const MyForm = ({
           width={300}
           bold='bold'
           type="submit"
+          disabled={disabled && empty}
         />
       </Grid>
     </form>

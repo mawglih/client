@@ -17,7 +17,7 @@ export const theme = createTheme({
       main: `${myOrange}`,
     },
     tertiary: {
-      main: 'red',
+      main: 'turqoise',
     },
   },
   typography: {
