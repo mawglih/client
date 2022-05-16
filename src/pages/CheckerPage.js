@@ -7,6 +7,7 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { makeStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import { Button, Typography } from "@material-ui/core";
+import AlertSnackbar from "../components/ui/AlertSnackbar";
 
 const useStyles = makeStyles(theme => ({
   loader: {
@@ -116,11 +117,21 @@ const CheckerPage = () => {
         )
       }
       {loading && (
-        <Grid container justifyContent='center' className={classes.loader}>
-          <Grid item>
-            <BallTriangle color={color} height={500} width={500}/>
+        <>
+          <Grid container justifyContent='center' className={classes.loader}>
+            <Grid item>
+              <BallTriangle color={color} height={500} width={500}/>
+            </Grid>
           </Grid>
-        </Grid>
+          <AlertSnackbar
+            term1={titles.title1}
+            term2={titles.title2}
+            dir={titles.dir}
+            isOpen={loading}
+            whatHow={titles.sel}
+          />
+        </>
+
         )
       }
     </div>

@@ -14,6 +14,7 @@ import infoBkg8 from '../assets/bkg-city-night.png';
 import { TextField, useMediaQuery } from "@material-ui/core";
 import ActionButton from '../components/ui/ActionButton';
 import MyForm from '../components/ui/MyForm';
+import DisplayText from '../components/DisplayText';
 import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
@@ -50,7 +51,7 @@ const bkgs = [
 ];
 const btnTxt = ['Proceed slowly', 'You can go to step 2', 'Seriously? Click again', 'Next step', 'Are you Thomas?', 'You are persuasive!', 'I think my AI is blown away', 'Seriuosly you could use menu "Checker" from beginning'];
 
-const mainTitle = ['Enter your name and go', 'What is your email', 'Your phone', 'Enter your social security', 'What\'s you driver license number?', 'Your home address', 'Source of income', 'Enter your bank account infornation', ];
+const mainTitle = ['Enter your name and go', 'What is your email', 'Your phone', 'Enter your social security', 'What\'s you driver license number?', 'Your home address', 'Source of income', 'Enter your bank account information', ];
 const fieldName = ['name', 'email', 'phone', 'ssc', 'dl', 'address', 'income', 'bank' ];
 
 const HomePage = ({
@@ -235,8 +236,9 @@ const HomePage = ({
           height: '60em',
         }}
       >
-        {/* <CallToActions />   */}
-        <h1>Here we go</h1>
+        <DisplayText
+          data={data}
+        />
       </Grid>
       )}
     </Grid>
