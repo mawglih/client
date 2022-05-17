@@ -7,9 +7,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Tabs  from '@material-ui/core/Tabs';
 import Tab  from '@material-ui/core/Tab';
 import Logo from '../../assets/pic1a.svg';
-import Button  from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import { Link, useLocation } from 'react-router-dom';
 import useTheme from '@material-ui/core/styles/useTheme';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -215,7 +212,6 @@ const Header = ({
           paper: classes.drawer,
         }}
       >
-        <div className={classes.toolbarMargin} />
         <List disablePadding>
           {menusOptions.map(({name, link, itemValue},) => {
             return (
@@ -247,7 +243,7 @@ const Header = ({
     </>
   );
   const { pathname } = useLocation();
-  const override = (pathname === '/' || pathname === '/revs');
+  const override = (pathname === '/checker');
   
   return (
     <>

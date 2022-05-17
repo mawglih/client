@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { makeStyles, useTheme }from '@material-ui/core/styles';
-import Icon from '@material-ui/core/Icon';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import infoBkg1 from '../assets/bkg-guard-beach.png';
@@ -11,8 +10,7 @@ import infoBkg5 from '../assets/bkg-kanal-day.png';
 import infoBkg6 from '../assets/bkg-water-dawn.png';
 import infoBkg7 from '../assets/bkg-ny-dawn.png';
 import infoBkg8 from '../assets/bkg-city-night.png';
-import { TextField, useMediaQuery } from "@material-ui/core";
-import ActionButton from '../components/ui/ActionButton';
+import { useMediaQuery } from "@material-ui/core";
 import MyForm from '../components/ui/MyForm';
 import DisplayText from '../components/DisplayText';
 import { useNavigate } from 'react-router-dom';
@@ -54,9 +52,7 @@ const btnTxt = ['Proceed slowly', 'You can go to step 2', 'Seriously? Click agai
 const mainTitle = ['Enter your name and go', 'What is your email', 'Your phone', 'Enter your social security', 'What\'s you driver license number?', 'Your home address', 'Source of income', 'Enter your bank account information', ];
 const fieldName = ['name', 'email', 'phone', 'ssc', 'dl', 'address', 'income', 'bank' ];
 
-const HomePage = ({
-  handleSubmit,
-}) => {
+const HomePage = () => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesMd = useMediaQuery(theme.breakpoints.down('md'));
@@ -64,7 +60,7 @@ const HomePage = ({
   const [backgroundImg, setBackground] = useState(infoBkg1);
   const [buttonText, setButtonText] = useState('Proceed slowly');
   const [val, setVal] = useState({});
-  const [data, setData] = useState({ name: '', email: '', phone: '', ssc: '', dl: '', address: '', income: '', bank: '', })
+  const [data, setData] = useState({ name: '', email: '', phone: '', ssc: '', dl: '', address: '', income: '', bank: ''})
   const [fieldname, setFieldname] = useState(fieldName[0]);
   const [txtHelper, setTxtHelper] = useState('');
   const [disabled, setDisabled] = useState(true);
@@ -179,17 +175,8 @@ const HomePage = ({
     setVal({fieldname: ''});
     e.preventDefault();
   }
-
-  console.log('backImage', backgroundImg);
-  console.log('counter', counter);
-  console.log('bkg', bkgs[counter]);
-  console.log('val', val);
-  console.log('fieldname', fieldname);
-  console.log('data', data);
-  console.log('disabled', disabled);
-  console.log('helper text', txtHelper);
-
-  return (
+  
+   return (
     <Grid container direction="row">
       <Grid 
         item
@@ -206,7 +193,6 @@ const HomePage = ({
             </Typography>   
           </Grid>
           <Grid item className={classes.fieldname}>
-            
             <MyForm
               handleChange={onValueChange}
               label={fieldname}
@@ -220,7 +206,6 @@ const HomePage = ({
               autofocus={autofocus}
             />
           </Grid>
-
         </Grid>
       </Grid>
       {matchesMd ? null : (
